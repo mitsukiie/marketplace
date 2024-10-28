@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %} Produtos {% endblock title %}
+
+{% block staticfiles %}
+    {% load static %}
+    <link href="{% static 'css/components/siderbar.css' %}" rel="stylesheet">
+    <link href="{% static 'css/profile/product.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center">
+  <div class="main-container">
+    {% include 'components/siderbar.html' %}
+    <div class="content shadow-lg rounded">
+        <h1 class="h4 mb-3">Produtos Adicionados</h1>
+        <div class="mb-3 text-left">
+            <a href="{% url "product_add" %}" class="btn btn-primary">Adicionar Produto</a>
+        </div>
+        {% if has_products %}
+    <div class="product-list">
+      {% for product in products %}
+      <div class="product-item">
+        <div class="product-image">
+          <img src="{{ product.images.url }}" alt="{{ product.name }}">
+        </div>
+        <div class="product-details">
+          <h2>{{ product.name }}</h2>
+          <p class="product-description">{{ product.description }}</p>
+          <p class="product-location"><small><strong>Localização:</strong> {{ product.usuario.profile.endereco }}</small></p>
+        </div>
+        <div class="product-actions">
+          <a href="{% url "product_edit" product.pk %}" class="btn btn-primary" >Editar</a>
+          <a href="{% url "product_delete" product.pk %}" class="btn btn-danger" >Excluir</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+  <p class="text-muted">Nenhum produto adicionado.</p>
+  {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

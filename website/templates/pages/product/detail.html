@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %} detalhes {% endblock title %}
+
+{% block staticfiles %}
+    {% load static %}
+    <link href="{% static 'css/detail.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <!-- Informações do produto e do doador -->
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="row g-0">
+                    <!-- Imagem do produto -->
+                    <div class="col-md-4">
+                        <img src="{{ product.images.url }}" alt="{{ product.name }}" class="img-fluid rounded-start">
+                    </div>
+                    <!-- Informações básicas do produto -->
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h1 class="card-title text-primary">{{ product.name }}</h1>
+                            <p class="card-text">{{ product.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Detalhes do Produto -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="text-primary">Detalhes do Produto</h2>
+                    <p><strong>Condição:</strong> {{ product.condition }}</p>
+                    <p><strong>Categoria:</strong> {{ product.category }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informações do Doador -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="text-primary">Informações do Doador</h2>
+                    <p><strong>Nome:</strong> {{ product.usuario.first_name }} {{ product.usuario.last_name }}</p>
+                    <p><strong>Telefone:</strong> {{ product.usuario.profile.telefone }}</p>
+                    <div class="d-grid">
+                        <button class="btn btn-primary btn-lg">Chat</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Localização -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="text-primary">Localização</h2>
+                    <p><strong>Estado:</strong> {{ estado }}</p>
+                    <p><strong>Cidade:</strong> {{ cidade }}</p>
+                    <p><strong>Bairro:</strong> {{ bairro }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

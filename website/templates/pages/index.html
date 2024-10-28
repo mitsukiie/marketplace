@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %} Página Inicial {% endblock title %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+  <div class="jumbotron bg-light p-5 rounded">
+      <h1 class="display-5">Bem-vindo ao Ciclo Solidario</h1>
+      <p class="lead">Conectamos doadores a pessoas necessitadas. Faça a diferença hoje!</p>
+      <hr class="my-4">
+      <p>Explore nossa plataforma para doar ou solicitar itens.</p>
+      <a class="btn btn-primary btn-lg" href="#" role="button">Saiba mais</a>
+  </div>
+</div>
+
+<!-- Carrossel de imagens -->
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+      <div class="carousel-item active">
+          <img src="https://via.placeholder.com/1920x500" class="d-block w-100" alt="Doação de Roupas">
+          <div class="carousel-caption d-none d-md-block">
+              <h5>Doe Roupas</h5>
+              <p>Ajude a quem precisa com roupas em bom estado.</p>
+          </div>
+      </div>
+      <div class="carousel-item">
+          <img src="https://via.placeholder.com/1920x500" class="d-block w-100" alt="Doação de Alimentos">
+          <div class="carousel-caption d-none d-md-block">
+              <h5>Doe Alimentos</h5>
+              <p>Contribua com alimentos não perecíveis.</p>
+          </div>
+      </div>
+      <div class="carousel-item">
+          <img src="https://via.placeholder.com/1920x500" class="d-block w-100" alt="Doe Brinquedos">
+          <div class="carousel-caption d-none d-md-block">
+              <h5>Doe Brinquedos</h5>
+              <p>Faça uma criança feliz doando brinquedos.</p>
+          </div>
+      </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Anterior</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Próximo</span>
+  </a>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center text-primary">Categorias de Doações</h2>
+  <div class="row mt-4">
+      <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+              <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Roupas">
+              <div class="card-body">
+                  <h5 class="card-title">Roupas</h5>
+                  <p class="card-text">Doe roupas em bom estado para quem precisa.</p>
+                  <a href="#" class="btn btn-primary">Ver itens</a>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+              <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Alimentos">
+              <div class="card-body">
+                  <h5 class="card-title">Alimentos</h5>
+                  <p class="card-text">Contribua com alimentos não perecíveis.</p>
+                  <a href="#" class="btn btn-primary">Ver itens</a>
+              </div>
+          </div>
+      </div>
+      <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+              <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Brinquedos">
+              <div class="card-body">
+                  <h5 class="card-title">Brinquedos</h5>
+                  <p class="card-text">Faça uma criança feliz doando brinquedos.</p>
+                  <a href="#" class="btn btn-primary">Ver itens</a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <h2 class="text-center text-primary">Itens Disponíveis para Doação</h2>
+  <div class="row mt-4">
+    {% for product in products %}
+      <div class="col-lg-3 col-md-4 mb-4">
+          <div class="card">
+              <div class="estado-produto badge {{ product.badge }}">{{ product.condition }}</div>
+              <img src="{{ product.images.url }}" class="card-img-top" alt="{{ product.name }}">
+              <div class="card-body">
+                  <h5 class="card-title">{{ product.name }}</h5>
+                  <p class="card-text">{{ product.description|truncatewords:10 }}</p>
+                  <a href="{% url "product_detail" product.pk %}" class="btn btn-success">Receber</a>
+              </div>
+              <div class="card-footer bg-light text-muted">
+                <p class="small mb-1"><strong>Doado por:</strong> {{ product.usuario.first_name }} {{ product.usuario.last_name }}</p>
+                <p class="small mb-0"><strong>Localização:</strong> {{ product.city }}</p>
+            </div>
+          </div>
+      </div>
+      {% empty %}
+      <p class="text-center">Não há produtos disponíveis.</p>
+      {% endfor %}
+  </div>
+</div>
+
+</div>
+</div>
+{% endblock content %}

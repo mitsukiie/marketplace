@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %} Produtos {% endblock title %}
+
+{% block staticfiles %}
+    {% load static %}
+    <link href="{% static 'css/components/siderbar.css' %}" rel="stylesheet">
+    <link href="{% static 'css/profile/product.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center">
+  <div class="main-container">
+    {% include 'components/siderbar.html' %}
+    <div class="content shadow-lg rounded">
+        <h1 class="h4 mb-3">Editar Produto</h1>
+        <form class="row g-4" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+          <div class="col-md-4">
+            <div class="product-image-container">
+                <div class="product-img-wrapper">
+                    <img id="ProductPreview" src="{{ product.images.url }}" alt="Foto do perfil" class="product-img">
+                    <label for="images" class="upload-label">
+                        Alterar Imagem
+                    </label>
+                    <input type="file" id="images" name="images" class="file-input" accept="image/*" onchange="previewImage(event, 'ProductPreview')">
+                </div>
+            </div>
+          </div>
+          <!-- Nome do Item -->
+          <div class="col-md-8">
+          <div class="form-group">
+            {{ form.name.label }}
+            {{ form.name }}
+          </div>
+
+          <div class="form-group">
+            {{ form.description.label }}
+            {{ form.description }}
+        </div>
+
+          <!-- Condição do Item -->
+          <div class="form-group">
+            {{ form.condition.label }}
+            {{ form.condition }}
+          </div>
+
+          <!-- Categoria -->
+          <div class="form-group">
+            {{ form.category.label }}
+            {{ form.category }}
+          </div>
+
+
+          <!-- Localização para Retirada -->
+          <div class="form-group">
+            <label for="location">Localização para Retirada</label>
+            <input type="text" id="location" class="form-control" value="{{ location }}" readonly required>
+          </div>
+
+          <!-- Botão de Adicionar Doação -->
+          <div class="form-group d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            <a href="{% url "product" %}" class="btn btn-danger ">Cancelar</a>
+          </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+<script src="{% static "js/image-preview.js" %}" defer></script>
+{% endblock content %}

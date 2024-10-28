@@ -1,0 +1,236 @@
+<div class="sidebar rounded">
+  <h3>Área do Usuário</h3>
+  <ul class="nav flex-column">
+    <span class="nav-header">Configurações do Usuário</span>
+    <li>
+      <a class="nav-link nav-item {% if request.resolver_match.url_name == 'profile' %}nav-item-active{% endif %} d-flex align-items-center" href="{% url "profile" %}">
+        <svg
+          width="25"
+          height="25"
+          viewBox="0 0 22 23"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11 12.5C13.5 12.5 15.5 10.5 15.5 8C15.5 5.5 13.5 3.5 11 3.5C8.5 3.5 6.5 5.5 6.5 8C6.5 10.5 8.5 12.5 11 12.5Z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M17.5 20.5C17.5 17.5 14.5 15 11 15C7.5 15 4.5 17.5 4.5 20.5"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Perfil
+      </a>
+    </li>
+    <li>
+      <a
+        class="nav-link nav-item {% if request.resolver_match.url_name == 'product' %}nav-item-active{% endif %} d-flex align-items-center gap-3"
+        href="{% url "product" %}"
+      >
+        <svg
+          width="25"
+          height="25"
+          viewBox="0 0 22 23"
+          fill="none"
+          mlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2.90576 7.32001L10.9999 12.0042L19.0391 7.34748"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M11 20.3092V11.995"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M9.10256 2.77331L4.20757 5.49584C3.0984 6.11001 2.19092 7.64999 2.19092 8.91499V14.0942C2.19092 15.3592 3.0984 16.8992 4.20757 17.5133L9.10256 20.2359C10.1476 20.8134 11.8617 20.8134 12.9067 20.2359L17.8017 17.5133C18.9109 16.8992 19.8184 15.3592 19.8184 14.0942V8.91499C19.8184 7.64999 18.9109 6.11001 17.8017 5.49584L12.9067 2.77331C11.8526 2.18665 10.1476 2.18665 9.10256 2.77331Z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M15.5834 12.6366V9.28167L6.88428 4.2583"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Produtos
+      </a>
+    </li>
+  </ul>
+  <ul class="nav flex-column">
+    <span class="nav-header">Comunicação</span>
+    <li>
+      <a
+        class="nav-link nav-item d-flex align-items-center gap-3"
+        href="#"
+      >
+        <svg
+          width="25"
+          height="25"
+          viewBox="0 0 22 23"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7.79183 17.9166H7.3335C3.66683 17.9166 1.8335 17 1.8335 12.4166V7.83331C1.8335 4.16665 3.66683 2.33331 7.3335 2.33331H14.6668C18.3335 2.33331 20.1668 4.16665 20.1668 7.83331V12.4166C20.1668 16.0833 18.3335 17.9166 14.6668 17.9166H14.2085C13.9243 17.9166 13.6493 18.0541 13.4752 18.2833L12.1002 20.1166C11.4952 20.9233 10.5052 20.9233 9.90016 20.1166L8.52516 18.2833C8.3785 18.0816 8.03933 17.9166 7.79183 17.9166Z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-miterlimit="10"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M14.6633 10.5833H14.6715"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M10.9958 10.5833H11.004"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M7.3283 10.5833H7.33653"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Chats
+      </a>
+    </li>
+    <li>
+      <a
+        class="nav-link nav-item d-flex align-items-center gap-3"
+        href="#"
+      >
+        <svg
+          width="25"
+          height="25"
+          viewBox="0 0 22 23"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11.0002 20.6666C16.0418 20.6666 20.1668 16.5416 20.1668 11.5C20.1668 6.45831 16.0418 2.33331 11.0002 2.33331C5.9585 2.33331 1.8335 6.45831 1.8335 11.5C1.8335 16.5416 5.9585 20.6666 11.0002 20.6666Z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M11 7.83331V12.4166"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M10.9951 15.1667H11.0034"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Notificações
+      </a>
+    </li>
+  </ul>
+  <ul class="nav flex-column">
+    <span class="nav-header">Preferências</span>
+    <li>
+      <a
+        class="nav-link nav-item d-flex align-items-center gap-3"
+        href="#"
+      >
+        <svg
+          width="25"
+          height="25"
+          viewBox="0 0 22 23"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2.75 8.85081V14.14C2.75 16.0833 2.75 16.0833 4.58333 17.3208L9.625 20.2358C10.3858 20.6758 11.6233 20.6758 12.375 20.2358L17.4167 17.3208C19.25 16.0833 19.25 16.0833 19.25 14.1491V8.85081C19.25 6.91664 19.25 6.91664 17.4167 5.67914L12.375 2.76414C11.6233 2.32414 10.3858 2.32414 9.625 2.76414L4.58333 5.67914C2.75 6.91664 2.75 6.91664 2.75 8.85081Z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M11 14.25C12.5188 14.25 13.75 13.0188 13.75 11.5C13.75 9.98122 12.5188 8.75 11 8.75C9.48122 8.75 8.25 9.98122 8.25 11.5C8.25 13.0188 9.48122 14.25 11 14.25Z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Configurações
+      </a>
+    </li>
+  </ul>
+  <div class="nav-last-item">
+    <ul class="nav flex-column">
+      <li>
+        <a
+          class="nav-link nav-item last-item d-flex align-items-center gap-3"
+          href="#"
+        >
+          <svg
+            width="25"
+            height="25"
+            viewBox="0 0 24 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M8.8999 8.05999C9.2099 4.45999 11.0599 2.98999 15.1099 2.98999H15.2399C19.7099 2.98999 21.4999 4.77999 21.4999 9.24999V15.77C21.4999 20.24 19.7099 22.03 15.2399 22.03H15.1099C11.0899 22.03 9.2399 20.58 8.9099 17.04"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M15.0001 12.5H3.62012"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M5.85 9.14999L2.5 12.5L5.85 15.85"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Sair
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

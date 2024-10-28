@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %} Adicionar Produto {% endblock title %}
+
+{% block staticfiles %}
+    {% load static %}
+    <link href="{% static 'css/components/siderbar.css' %}" rel="stylesheet">
+    <link href="{% static 'css/profile/product.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center">
+  <div class="main-container">
+    {% include 'components/siderbar.html' %}
+    <div class="content shadow-lg rounded">
+        <h1 class="h4">Adicionar Doação</h1>
+        <p class="subtitle mb-4">Ajude alguém doando itens que não precisa mais</p>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+          <!-- Nome do Item -->
+          <div class="form-group">
+            {{ form.name.label }}
+            {{ form.name }}
+          </div>
+
+          <!-- Descrição -->
+          <div class="form-group">
+            {{ form.description.label }}
+            {{ form.description }}
+        </div>
+
+          <!-- Condição do Item -->
+          <div class="form-group">
+            {{ form.condition.label }}
+            {{ form.condition }}
+          </div>
+
+          <!-- Categoria -->
+          <div class="form-group">
+            {{ form.category.label }}
+            {{ form.category }}
+          </div>
+
+
+          <!-- Imagens do Item -->
+          <div class="form-group">
+              <label for="images">Imagens do Item</label>
+              <div class="file-upload" id="file-upload">
+                  <span class="fake-btn" id="upload-btn">Escolher imagens</span>
+                  <span class="file-msg">ou arraste e solte as imagens aqui</span>
+                  <input type="file" class="file-input" id="images" name="images" accept="image/*" required multiple>
+              </div>
+              <div id="preview" class="image-preview"></div>
+          </div>
+
+          <!-- Localização para Retirada -->
+          <div class="form-group">
+            <label for="location">Localização para Retirada</label>
+            <input type="text" id="location" class="form-control" placeholder="O endereço é configurado no perfil" value="{{ location }}" readonly required>
+          </div>
+
+          <!-- Botão de Adicionar Doação -->
+          <div class="form-group d-flex justify-content-between">
+            <button type="submit" name="add" class="btn btn-primary w-50 mr-2">Adicionar Doação</button>
+            <a href="{% url "product" %}" class="btn btn-danger w-50">Cancelar</a>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/image-upload.js' %}" defer></script>
+{% endblock content %}

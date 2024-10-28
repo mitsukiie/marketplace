@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Cadastrar {% endblock title %}
+
+{% block staticfiles %}
+    {% load static %}
+    <link href="{% static 'css/authenticate.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center vh-100">
+    <div class="col-md-4">
+        <div class="custom-container text-center">
+            <h2>Cadastro</h2>
+            <form method="post"> 
+                {% csrf_token %}
+                {{ form.as_p }}
+                <span>
+                    Tem uma conta? <a href="{% url 'login' %}" class="text-white">Entrar</a>
+                </span>
+                <button type="submit" class="auth-btn w-100">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

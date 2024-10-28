@@ -1,0 +1,150 @@
+
+.navbar-custom {
+  background: linear-gradient(to bottom, #1867ce, #156ada, #1867ce);
+  color: #fff;
+  padding: 0;
+}
+
+.navbar-custom .container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.navbar-custom .navbar-brand, .navbar-brand:hover {
+  text-decoration: none;
+  color: #fff;
+  padding: 7px;
+  font-weight: bold;
+}
+
+.navbar-custom .input-group {
+  background-color: #fff;
+  border-radius: 8px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.navbar-custom .form-control {
+  border: none;
+  border-radius: 8px;
+  width: 200px;
+}
+
+.navbar-custom .input-group .form-control:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.search-button {
+  padding: 3px 15px;
+  background: linear-gradient(to bottom, #124b97, #1356ad, #1877f2);
+  border: 3px solid #fff;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.search-button svg {
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+}
+
+.user-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 7px;
+  margin-right: 5px;
+  background: linear-gradient(to bottom, #124b97, #1356ad, #1877f2);;
+  cursor: pointer;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.user-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: #fff;
+}
+
+.user-btn span {
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.dropdown-menu { 
+  color: #fff;
+  background: linear-gradient(to bottom, #1867ce, #156ada, #1867ce);
+  border: 1px solid #fff;
+  padding: 0;
+}
+
+.dropdown-item {
+  font-weight: bold;
+  color: #fff;
+  transition: background 0.2s ease-out;
+}
+
+.category-btn {
+  font-size: 14px;
+  text-decoration: none;
+  color: #fff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-weight: bold;
+  transition: background 0.2s ease-out;
+  border-radius: 8px;
+}
+
+.search-button:hover, .user-btn:hover, .category-btn:hover, .dropdown-item:hover {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+button:focus {
+  outline: none;
+}
+
+.category-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: #fff;
+}
+
+.authenticate-btns {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.authenticate-btns a {
+  text-decoration: none;
+  padding: 6px 10px;
+  color: #fff;
+  transition: background 0.2s ease-out;
+  border-radius: 8px;
+}
+
+.authenticate-btns a:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.navbar-custom .row {
+  width: auto;
+  margin: 10px auto;
+}
+
+.navbar-custom .row h4 {
+  font-weight: bold;
+}
+
+.navbar-custom .row a {
+  color: #d9e1ec;
+  font-size: 15px;
+  text-decoration: none;
+}
