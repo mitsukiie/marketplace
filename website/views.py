@@ -7,7 +7,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.views import View
 from django.urls import reverse_lazy
-from .models import Profile, Product
+from .models import Profile, Product, ProductImage
 from . import forms
 
 class IndexListView(ListView):
@@ -36,12 +36,15 @@ class IndexListView(ListView):
         return context
 
     def get_queryset(self):
-        return Product.objects.all() 
+        return Product.objects.prefetch_related('images').all()
     
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'pages/product/detail.html'  # O template HTML que será renderizado
+    template_name = 'pages/product/detail.html'
     context_object_name = 'product'
+
+    def get_queryset(self):
+        return Product.objects.prefetch_related('images')
     
 class RegisterCreateView(CreateView):
     template_name = 'pages/authentication/register.html'
@@ -85,7 +88,6 @@ class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return self.render_to_response({'user_form': user_form, 'profile_form': profile_form})
 
     def form_valid(self, form):
-        # Aqui você pode adicionar qualquer lógica adicional que deseja ao salvar
         return super().form_valid(form)
 
     def form_valid(self, user_form):
@@ -100,7 +102,7 @@ class ProductListView(LoginRequiredMixin, ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
-        return Product.objects.filter(usuario=self.request.user)
+        return Product.objects.filter(usuario=self.request.user).prefetch_related('images')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -120,7 +122,14 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.usuario = self.request.user
+        product = form.save(commit=False)
+        product.usuario = self.request.user
+        product.save()
+
+        images = self.request.FILES.getlist('images') 
+        for image in images:
+            ProductImage.objects.create(product=product, image=image)
+
         return super().form_valid(form)
 
 
@@ -133,11 +142,32 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         profile = get_object_or_404(Profile, user=self.request.user)
+        context['product_images'] = self.object.images.all()
         context['location'] = profile.endereco
         return context
 
+
     def get_queryset(self):
         return Product.objects.filter(usuario=self.request.user)
+
+    def form_valid(self, form):
+        product = form.save(commit=False)
+        
+        remove_images = self.request.POST.getlist('remove_images')
+        for image_id in remove_images:
+            try:
+                image = ProductImage.objects.get(id=image_id)
+                image.delete() 
+            except Image.DoesNotExist:
+                pass 
+        product.save()
+
+        images = self.request.FILES.getlist('images')
+        for image in images:
+            ProductImage.objects.create(product=self.object, image=image)
+
+        return super().form_valid(form)
+
 
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):

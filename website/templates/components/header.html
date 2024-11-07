@@ -25,6 +25,12 @@
               </svg></button>
             </div>
           </div>
+          
+          <label class="switch ml-2">
+            <input type="checkbox" id="theme-toggle" />
+            <span class="slider round"></span>
+          </label>
+          
 
           {% if user.is_authenticated %}
           <div class="dropdown ml-2">
@@ -47,8 +53,9 @@
               class="dropdown-menu dropdown-menu-right"
               aria-labelledby="userDropdown"
             >
-              <a class="dropdown-item" href="{% url "profile" %}">Ver Perfil</a>
-              <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
+              <a class="dropdown-item" href="{% url "profile" %}">Perfil</a>
+              <a class="dropdown-item" href="{% url "product" %}">Produtos</a>
+              <a class="dropdown-item" href="{% url "logout" %}">Sair</a>
             </div>
       </div>
           {% endif %}

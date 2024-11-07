@@ -5,6 +5,7 @@
   padding: 0;
 }
 
+
 .navbar-custom .container-fluid {
   padding-left: 0;
   padding-right: 0;
@@ -24,7 +25,9 @@
   margin-right: 5px;
 }
 
+
 .navbar-custom .form-control {
+  background: #fff;
   border: none;
   border-radius: 8px;
   width: 200px;
@@ -43,6 +46,7 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
 
 .search-button svg {
   width: 18px;
@@ -102,7 +106,12 @@
   border-radius: 8px;
 }
 
-.search-button:hover, .user-btn:hover, .category-btn:hover, .dropdown-item:hover {
+.search-button:hover {
+  color: #fff;
+  background: rgba(18, 75, 151, 0.9);
+}
+
+.user-btn:hover, .category-btn:hover, .dropdown-item:hover {
   color: #fff;
   background: rgba(0, 0, 0, 0.2);
 }
@@ -148,3 +157,65 @@ button:focus {
   font-size: 15px;
   text-decoration: none;
 }
+
+.switch {
+  position: relative;
+  width: 60px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 24px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%; 
+  transition: .4s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Quando o switch é ativado */
+input:checked + .slider {
+  background-color: #fafafa;
+}
+
+
+input:checked + .slider:before {
+  background-color: #929292;
+  transform: translateX(14px);
+}
+
+/*tema dark*/
+.dark-mode .navbar-custom,
+.dark-mode .search-button,
+.dark-mode .user-btn,
+.dark-mode .dropdown-menu  {
+  background: linear-gradient(to bottom, #0a3d8c, #0e4a99, #0a3d8c);
+}
+
+.dark-mode .search-button:hover {
+  background: #0b3472;
+}
+

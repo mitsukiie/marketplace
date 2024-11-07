@@ -47,10 +47,29 @@
 .content {
   padding: 40px;
   background-color: #ffffff;
-  border-left: 1px solid #dee2e6;
   flex-grow: 1;
 }
 
 .nav-last-item {
   margin-top: auto;
+}
+
+.dark-mode .sidebar {
+  background: linear-gradient(to bottom, #0a3d8c, #0e4a99, #0a3d8c);
+}
+
+.dark-mode .content {
+  background-color: #2b2e33;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .form-control {
+  background-color: #1c1f22; 
+  color: #929292; 
+  border: 1px solid #343a40;
+}
+
+.dark-mode .form-control:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* sombra de foco azul clara */
 }

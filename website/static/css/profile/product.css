@@ -65,21 +65,76 @@
     cursor: pointer;
   }
   
-  /* Pré-visualização das imagens */
   .image-preview {
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
     gap: 10px;
-  }
-  
-  .image-preview img {
-    width: 80px;
-    height: 80px;
+}
+
+.image-preview .preview-container {
+    position: relative;
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.image-preview .preview-container:hover {
+    transform: scale(1.1);
+}
+
+.image-preview .preview-container.cover {
+    border: 2px solid #1877f2;
+    padding: 2px;
+    border-radius: 5px;
+}
+
+.image-preview .preview-container.cover::before {
+    content: "Capa";
+    position: absolute;
+    top: -10px;
+    left: 5px;
+    background-color: #1877f2;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.image-preview img {
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     border-radius: 5px;
-  }
-  
+    cursor: pointer;
+}
+
+.image-preview .remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.image-preview .remove-btn:hover {
+    opacity: 1;
+}
+
+.modal-body {
+  padding: 0;
+}
+
   .product-list {
     margin-top: 20px;
     display: flex;
@@ -186,3 +241,36 @@
   .product-img-wrapper:hover .profile-img {
     opacity: 0.6;
   }
+
+  .dark-mode .product-item {
+    background-color: #1c1f22; 
+    border: 1px solid #343a40;
+  }
+
+.dark-mode .product-details h2 {
+    font-size: 18px;
+    margin: 0;
+    color: #fff;
+  }
+
+.dark-mode .form-group select {
+    color: #929292;
+    background-color: #1c1f22;
+    border: 1px solid #343a40;
+  }
+
+.dark-mode .file-upload {
+    border: 2px dashed #999;
+  }
+
+.dark-mode .file-upload:hover {
+    border-color: #195cb4;
+  }
+
+.dark-mode .fake-btn {
+  background-color: #0e4a99;
+}
+
+.dark-mode .fake-btn:hover {
+  background-color: #103b74;
+}

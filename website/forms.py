@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from .models import Profile, Product
+from .models import Profile, Product, ProductImage
 
 class RegistrationForm(forms.ModelForm):
     telefone = forms.CharField(
@@ -108,7 +108,7 @@ class ProfileForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'condition', 'category', 'images']
+        fields = ['name', 'description', 'condition', 'category']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Roupas, Móveis, Eletrodomésticos', 'required': True}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': '4', 'placeholder': 'Detalhes sobre o item que está doando', 'required': True}),
@@ -121,3 +121,10 @@ class ProductForm(forms.ModelForm):
             'condition': 'Condição do item',
             'category': 'Categoria',
         }
+
+class ProductImageForm(forms.ModelForm):
+    class Meta:
+        model = ProductImage
+        fields = ['image']
+
+ProductImageFormSet = forms.modelformset_factory(ProductImage, form=ProductImageForm, extra=5)

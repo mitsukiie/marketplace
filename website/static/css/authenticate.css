@@ -35,3 +35,7 @@
 .auth-btn:hover {
     background: rgba(0, 0, 0, 0.5);
 }
+
+.dark-mode .custom-container {
+    background: linear-gradient(to bottom, #0a3d8c, #0e4a99, #0a3d8c);
+}

@@ -8,55 +8,69 @@
 {% endblock %}
 
 {% block content %}
-<div class="container my-4">
+<div class="container mt-5 pt-5">
     <div class="row">
-        <!-- Informações do produto e do doador -->
-        <div class="col-lg-8">
-            <div class="card mb-4">
-                <div class="row g-0">
-                    <!-- Imagem do produto -->
-                    <div class="col-md-4">
-                        <img src="{{ product.images.url }}" alt="{{ product.name }}" class="img-fluid rounded-start">
+        <!-- Coluna da esquerda (imagens e detalhes) -->
+        <div class="col-md-8">
+            <!-- Carrossel de imagens -->
+            <div id="productCarousel" class="carousel slide mb-4" data-ride="carousel">
+                <div class="carousel-inner">
+                    {% if product.images.count > 0 %}
+                        {% for image in product.images.all %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ image.image.url }}" class="d-block w-100 product-img" alt="{{ product.name }}">
+                            </div>
+                        {% endfor %}
+                     {% else %}
+                    <div class="carousel-item active">
+                    <img src="{% static 'imagelogo.png' %}" class="d-block w-100 product-img" alt="Imagem padrão">
                     </div>
-                    <!-- Informações básicas do produto -->
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h1 class="card-title text-primary">{{ product.name }}</h1>
-                            <p class="card-text">{{ product.description }}</p>
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
+                <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Anterior</span>
+                </a>
+                <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Próximo</span>
+                </a>
             </div>
-            <!-- Detalhes do Produto -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="text-primary">Detalhes do Produto</h2>
-                    <p><strong>Condição:</strong> {{ product.condition }}</p>
-                    <p><strong>Categoria:</strong> {{ product.category }}</p>
-                </div>
-            </div>
+
+            <!-- Detalhes do produto -->
+            <h1>{{ product.name }}</h1>
+            <p class="text-muted">Publicado em 00/00/00 - x</p>
+            <h2 class="mt-4">{{ product.condition }}</h2>
+            <p class="mt-4">{{ product.description }}</p>
+            
         </div>
 
-        <!-- Informações do Doador -->
-        <div class="col-lg-4">
+        <!-- Coluna da direita (informações do vendedor e ações) -->
+        <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h2 class="text-primary">Informações do Doador</h2>
-                    <p><strong>Nome:</strong> {{ product.usuario.first_name }} {{ product.usuario.last_name }}</p>
-                    <p><strong>Telefone:</strong> {{ product.usuario.profile.telefone }}</p>
-                    <div class="d-grid">
-                        <button class="btn btn-primary btn-lg">Chat</button>
-                    </div>
+                    <h5 class="card-title">Informações do vendedor</h5>
+                    <p class="card-text">{{ product.usuario.first_name }} {{ product.usuario.last_name }}</p>
+                    <p class="card-text"><small class="text-muted">00/00/00</small></p>
+                    <a href="#" class="btn btn-primary w-100 mb-2">Ver telefone</a>
+                    <a href="#" class="btn btn-outline-primary w-100">Enviar mensagem</a>
                 </div>
             </div>
-            <!-- Localização -->
+
             <div class="card mb-4">
                 <div class="card-body">
-                    <h2 class="text-primary">Localização</h2>
-                    <p><strong>Estado:</strong> {{ estado }}</p>
-                    <p><strong>Cidade:</strong> {{ cidade }}</p>
-                    <p><strong>Bairro:</strong> {{ bairro }}</p>
+                    <h5 class="card-title">Localização</h5>
+                    <p class="card-text">{{ product.usuario.profile.endereco }}</p>
                 </div>
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-outline-secondary w-100 mb-2">
+                    <i class="far fa-heart me-2"></i> Favoritar
+                </button>
+                <button class="btn btn-outline-secondary w-100">
+                    <i class="fas fa-share-alt me-2"></i> Compartilhar
+                </button>
             </div>
         </div>
     </div>
