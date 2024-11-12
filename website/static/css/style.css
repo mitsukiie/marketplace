@@ -23,58 +23,7 @@ body {
   border-color: #1867ce;
 }
 
-.btn {
-  border: none;
-}
-
-.jumbotron {
-  background: #fff;
-}
-.card {
-  transition: transform 0.2s;
-}
-.card:hover {
-  transform: scale(1.05);
-}
-
-.estado-produto {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 0.9rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  z-index: 1;
-}
-
-.card-img-top {
-  height: 180px;
-}
-
 body.dark-mode {
   background-color: #212529;
   color: #fff;
 }
-
-
-.dark-mode .text-primary {
-  color: #0e4a99;
-}
-
-.dark-mode .btn-primary {
-  background: #0e4a99;
-}
-
-.dark-mode .btn-primary {
-  background: #0e4a99;
-}
-
-.dark-mode .btn-success {
-  background-color: #00572b;
-}
-
-.dark-mode .jumbotron, .dark-mode .card {
-  background-color: #2b2e33;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} detalhes {% endblock title %}
+{% block title %} Detalhes da Doação {% endblock title %}
 
 {% block staticfiles %}
     {% load static %}
@@ -9,70 +9,141 @@
 
 {% block content %}
 <div class="container mt-5 pt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-light p-2 rounded">
+            <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="/">Doações</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+        </ol>
+    </nav>
+
     <div class="row">
         <!-- Coluna da esquerda (imagens e detalhes) -->
-        <div class="col-md-8">
+        <div class="col-lg-8">
             <!-- Carrossel de imagens -->
-            <div id="productCarousel" class="carousel slide mb-4" data-ride="carousel">
-                <div class="carousel-inner">
+            <div class="d-flex">
+                <!-- Carrossel de imagens -->
+                <div id="productCarousel" class="carousel slide mb-4 shadow flex-grow-1" data-ride="carousel" style="width: 75%;">
+                    <div class="carousel-inner rounded">
+                        {% if product.images.count > 0 %}
+                            {% for image in product.images.all %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img src="{{ image.image.url }}" class="d-block w-100 product-img" alt="{{ product.name }}">
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                        <div class="carousel-item active">
+                            <img src="{% static 'image/logo.png' %}" class="d-block w-100 product-img" alt="Imagem padrão">
+                        </div>
+                        {% endif %}
+                    </div>
+                    <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Anterior</span>
+                    </a>
+                    <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Próximo</span>
+                    </a>
+                </div>
+            
+                <!-- Galeria de Miniaturas -->
+                <div class="thumbnail-gallery ml-3 d-flex flex-column justify-content-top">
                     {% if product.images.count > 0 %}
                         {% for image in product.images.all %}
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <img src="{{ image.image.url }}" class="d-block w-100 product-img" alt="{{ product.name }}">
-                            </div>
+                        <img src="{{ image.image.url }}" class="thumbnail-img mb-2" alt="Miniatura {{ forloop.counter }}" data-target="#productCarousel" data-slide-to="{{ forloop.counter0 }}">
                         {% endfor %}
-                     {% else %}
-                    <div class="carousel-item active">
-                    <img src="{% static 'imagelogo.png' %}" class="d-block w-100 product-img" alt="Imagem padrão">
-                    </div>
                     {% endif %}
                 </div>
-                <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Anterior</span>
-                </a>
-                <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Próximo</span>
-                </a>
             </div>
+            
 
             <!-- Detalhes do produto -->
-            <h1>{{ product.name }}</h1>
-            <p class="text-muted">Publicado em 00/00/00 - x</p>
-            <h2 class="mt-4">{{ product.condition }}</h2>
-            <p class="mt-4">{{ product.description }}</p>
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h1 class="card-title mb-0">{{ product.name }}</h1>
+                        <span class="badge badge-info ml-3">{{ product.condition }}</span>
+                    </div>
+                    <p class="text-muted"><i class="far fa-clock mr-2"></i>Publicado em 00/00/00</p>
+                    <p class="description">{{ product.description }}</p>
+                </div>
+            </div>
             
+            <!-- Seção de comentários -->
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Comentários</h5>
+                    <!-- Adicione aqui a lógica para exibir e adicionar comentários -->
+                    <form>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" placeholder="Deixe seu comentário..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                </div>
+            </div>
         </div>
 
         <!-- Coluna da direita (informações do vendedor e ações) -->
-        <div class="col-md-4">
-            <div class="card mb-4">
+        <div class="col-lg-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Informações do vendedor</h5>
-                    <p class="card-text">{{ product.usuario.first_name }} {{ product.usuario.last_name }}</p>
-                    <p class="card-text"><small class="text-muted">00/00/00</small></p>
-                    <a href="#" class="btn btn-primary w-100 mb-2">Ver telefone</a>
-                    <a href="#" class="btn btn-outline-primary w-100">Enviar mensagem</a>
+                    <h5 class="card-title">Informações do doador</h5>
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{% if product.usuario.foto_perfil %}{{ product.usuario.foto_perfil.url }}{% else %}https://www.gravatar.com/avatar/?d=mp{% endif %}" alt="Avatar" class="rounded-circle mr-3" style="width: 60px; height: 60px;">
+                        <div>
+                            <p class="card-text mb-0">{{ product.usuario.first_name }} {{ product.usuario.last_name }}</p>
+                            <p class="card-text"><small class="text-muted">Membro desde {{ product.usuario.date_joined|date:"d/m/Y" }}</small></p>
+                        </div>
+                    </div>
+                    <a href="https://web.whatsapp.com//send/?phone={{ product.usuario.telefone }}" class="btn btn-success w-100 mb-2">
+                        <i class="fab fa-whatsapp mr-2"></i>Ver telefone
+                    </a>
+                    <a href="#" class="btn btn-primary w-100">
+                        <i class="far fa-envelope mr-2"></i>Enviar mensagem
+                    </a>
                 </div>
             </div>
 
-            <div class="card mb-4">
+            <div class="card shadow-sm mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Localização</h5>
-                    <p class="card-text">{{ product.usuario.profile.endereco }}</p>
+                    <p class="card-text"><i class="fas fa-map-marker-alt mr-2"></i>{{ product.usuario.endereco }}</p>
+                    <!-- Adicione aqui um mapa estático ou interativo -->
+                    <div id="map" style="height: 200px; background-color: #eee;" class="mb-3"></div>
+                    <a href="#" class="btn btn-outline-secondary w-100">Ver no mapa</a>
                 </div>
             </div>
 
             <div class="mt-4">
-                <button class="btn btn-outline-secondary w-100 mb-2">
-                    <i class="far fa-heart me-2"></i> Favoritar
-                </button>
-                <button class="btn btn-outline-secondary w-100">
-                    <i class="fas fa-share-alt me-2"></i> Compartilhar
+                <button class="btn btn-info w-100">
+                    <i class="fas fa-share-alt mr-2"></i> Compartilhar
                 </button>
             </div>
         </div>
     </div>
 </div>
+<script>
+    // Marca a miniatura ativa e sincroniza com o carrossel
+document.addEventListener('DOMContentLoaded', () => {
+    const thumbnails = document.querySelectorAll('.thumbnail-img');
+    const carousel = document.querySelector('#productCarousel');
+
+    thumbnails.forEach((thumbnail, index) => {
+        thumbnail.addEventListener('click', () => {
+            $(carousel).carousel(index);
+            thumbnails.forEach(img => img.classList.remove('active'));
+            thumbnail.classList.add('active');
+        });
+    });
+
+    // Sincroniza a miniatura ativa ao deslizar o carrossel
+    $('#productCarousel').on('slide.bs.carousel', function (e) {
+        thumbnails.forEach(img => img.classList.remove('active'));
+        thumbnails[e.to].classList.add('active');
+    });
+});
+
+</script>
 {% endblock %}

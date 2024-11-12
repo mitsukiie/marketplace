@@ -1,54 +1,32 @@
 from django import forms
+from .models import User, Product, ProductImage
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
-from .models import Profile, Product, ProductImage
 
 class RegistrationForm(forms.ModelForm):
-    telefone = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Digite seu telefone'
-        }),
-        required=True
-    )
-
-    first_name = forms.CharField(
-        label='Nome',
-        required=True,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Digite seu nome' 
-        })
-    )
-
-    last_name = forms.CharField(
-        label='Sobrenome',
-        required=False, 
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Digite seu sobrenome'
-        })
-    )
-
-    email = forms.EmailField(
-        required=True,
-        widget=forms.EmailInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Digite seu email'
-        })
-    )
-
-    password = forms.CharField(
-        label='Senha',
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Digite sua senha'
-        })
-    )
-
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'email', 'telefone', 'password']
+        widgets = {
+            'first_name': forms.EmailInput(attrs={'placeholder': 'Digite seu nome', 'class': 'form-control'}),
+            'last_name': forms.EmailInput(attrs={'placeholder': 'Digite seu sobrenome', 'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Digite seu email', 'class': 'form-control'}),
+            'password': forms.PasswordInput(attrs={'placeholder': 'Digite seu senha', 'class': 'form-control'}),
+            'telefone': forms.TextInput(attrs={'placeholder': 'Digite seu telefone', 'class': 'form-control'}),
+        }
+        labels = {
+            'first_name': 'Nome',
+            'last_name': 'Sobrenome',
+            'email': 'Email',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = False
+        self.fields['email'].required = True
+        self.fields['telefone'].required = True
+        self.fields['password'].required = True
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -56,9 +34,7 @@ class RegistrationForm(forms.ModelForm):
         user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()
-            Profile.objects.create(user=user, telefone=self.cleaned_data['telefone'])
         return user
-
 
 class AuthenticateForm(AuthenticationForm):
     username = forms.CharField(
@@ -80,30 +56,21 @@ class AuthenticateForm(AuthenticationForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'email', 'telefone', 'endereco', 'foto_perfil']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Sobrenome'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'email@exemplo.com'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'telefone'}),
+            'endereco': forms.TextInput(attrs={'id': 'endereco', 'class': 'form-control', 'placeholder': 'Localização a partir do Cep.', 'readonly': 'readonly'}),
         }
         labels = {
             'first_name': 'Nome',
             'last_name': 'Sobrenome',
             'email': 'Email',
-        }
-
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['telefone', 'endereco', 'foto_perfil']
-        widgets = {
-            'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'telefone'}),
-            'endereco': forms.TextInput(attrs={'id': 'endereco', 'class': 'form-control', 'placeholder': 'Localização a partir do Cep.', 'readonly': 'readonly'}),
-        }
-        labels = {
+            'telefone': 'Telefone',
             'endereco': 'Endereço',
         }
-
 
 class ProductForm(forms.ModelForm):
     class Meta:

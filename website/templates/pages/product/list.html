@@ -32,7 +32,7 @@
         <div class="product-details">
           <h2>{{ product.name }}</h2>
           <p class="product-description">{{ product.description }}</p>
-          <p class="product-location"><small><strong>Localização:</strong> {{ product.usuario.profile.endereco }}</small></p>
+          <p class="product-location"><small><strong>Localização:</strong> {{ product.usuario.endereco }}</small></p>
         </div>
         <div class="product-actions">
           <a href="{% url "product_edit" product.pk %}" class="btn btn-primary" >Editar</a>

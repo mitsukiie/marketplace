@@ -7,7 +7,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.views import View
 from django.urls import reverse_lazy
-from .models import Profile, Product, ProductImage
+from .models import User, Product, ProductImage
 from . import forms
 
 class IndexListView(ListView):
@@ -31,13 +31,13 @@ class IndexListView(ListView):
             else:
                 product.badge = 'badge-secondary'
 
-            address = product.usuario.profile.endereco.split(", ")
-            product.city = address[1] if len(address) > 1 else product.usuario.profile.endereco
+            address = product.usuario.endereco.split(", ")
+            product.city = address[1] if len(address) > 1 else product.usuario.endereco
         return context
 
     def get_queryset(self):
         return Product.objects.prefetch_related('images').all()
-    
+
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'pages/product/detail.html'
@@ -45,7 +45,7 @@ class ProductDetailView(DetailView):
 
     def get_queryset(self):
         return Product.objects.prefetch_related('images')
-    
+
 class RegisterCreateView(CreateView):
     template_name = 'pages/authentication/register.html'
     form_class = forms.RegistrationForm
@@ -55,46 +55,37 @@ class RegisterCreateView(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect(self.success_url)
-    
+
 class LoginView(LoginView):
     authentication_form = forms.AuthenticateForm
     template_name = 'pages/authentication/login.html'
-        
+
 class LogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         return redirect('index')
 
-
 class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'pages/profile/profile.html'
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('profile')  # Redireciona para a página do perfil após o sucesso
     success_message = 'Perfil atualizado com sucesso!'
 
     def get(self, request, *args, **kwargs):
-        user_form = forms.UserProfileForm(instance=request.user)
-        profile_form = forms.ProfileForm(instance=request.user.profile)
-        return render(request, self.template_name, {'user_form': user_form, 'profile_form': profile_form})
+        form = forms.UserProfileForm(instance=request.user)
+        return render(request, self.template_name, {
+            'form': form
+        })
 
     def post(self, request, *args, **kwargs):
-        user_form = forms.UserProfileForm(request.POST, instance=request.user)
-        profile_form = forms.ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        form = forms.UserProfileForm(request.POST, request.FILES, instance=request.user)
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            return self.form_valid(user_form)
+        if form.is_valid():
+            form.save()
+            return redirect(self.success_url)  
 
-        return self.render_to_response({'user_form': user_form, 'profile_form': profile_form})
-
-    def form_valid(self, form):
-        return super().form_valid(form)
-
-    def form_valid(self, user_form):
-        return super().form_valid(user_form)
-
-    def form_invalid(self, user_form, profile_form):
-        return self.render_to_response(self.get_context_data(user_form=user_form, profile_form=profile_form))
+        return render(request, self.template_name, {
+            'form': form
+        })
 
 class ProductListView(LoginRequiredMixin, ListView):
     model = Product
@@ -117,7 +108,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = get_object_or_404(Profile, user=self.request.user)
+        profile = get_object_or_404(User, id=self.request.user.id)
         context['location'] = profile.endereco
         return context
 
@@ -141,7 +132,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = get_object_or_404(Profile, user=self.request.user)
+        profile = get_object_or_404(User, id=self.request.user.id)
         context['product_images'] = self.object.images.all()
         context['location'] = profile.endereco
         return context
@@ -167,7 +158,6 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             ProductImage.objects.create(product=self.object, image=image)
 
         return super().form_valid(form)
-
 
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):

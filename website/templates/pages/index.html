@@ -2,6 +2,12 @@
 
 {% block title %} Página Inicial {% endblock title %}
 
+{% block staticfiles %}
+    {% load static %}
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+{% endblock %}
+
+
 {% block content %}
 <!-- apresentação -->
 <div class="container mt-5 pt-5">
@@ -109,7 +115,7 @@
               <div class="card-body">
                   <h5 class="card-title">{{ product.name }}</h5>
                   <p class="card-text">{{ product.description|truncatewords:10 }}</p>
-                  <a href="{% url "product_detail" product.pk %}" class="btn btn-success">Receber</a>
+                  <a href="{% url "product_detail" product.pk %}" class="btn btn-success w-100">Receber</a>
               </div>
               <div class="card-footer text-muted">
                 <p class="small mb-1"><strong>Doado por:</strong> {{ product.usuario.first_name }} {{ product.usuario.last_name }}</p>

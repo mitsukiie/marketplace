@@ -1,3 +1,38 @@
 .product-img {
-  height: 400px;
+  height: 380px;
+  transition: transform 0.3s ease;
+}
+
+.product-img:hover {
+  transform: scale(1.05);
+}
+
+.thumbnail-gallery {
+  margin-bottom: 10px;
+}
+
+.thumbnail-img {
+  width: 85px;
+  height: 85px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s, border-color 0.2s;
+  border-radius: 5px;
+}
+
+.thumbnail-img:hover {
+  transform: scale(1.1);
+  border-color: #007bff;
+}
+
+.thumbnail-img.active {
+  border-color: #007bff;
+}
+
+.card .badge {
+  font-size: 1rem; 
+}
+
+.card .description {
+  font-size: 20px;
 }
