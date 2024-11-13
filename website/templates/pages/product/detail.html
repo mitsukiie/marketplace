@@ -65,7 +65,7 @@
                         <h1 class="card-title mb-0">{{ product.name }}</h1>
                         <span class="badge badge-info ml-3">{{ product.condition }}</span>
                     </div>
-                    <p class="text-muted"><i class="far fa-clock mr-2"></i>Publicado em 00/00/00</p>
+                    <p class="text-muted"><i class="far fa-clock mr-2"></i>Publicado em {{ product.publication_date|date:"d/m/Y" }}</p>
                     <p class="description">{{ product.description }}</p>
                 </div>
             </div>

@@ -41,6 +41,7 @@ class Product(models.Model):
     description = models.TextField()
     condition = models.CharField(max_length=20, choices=CONDITION_CHOICES)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    publication_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -52,3 +53,4 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Imagem de {self.product.name}"
+        
