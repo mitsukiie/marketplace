@@ -4,9 +4,10 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 from django.views import View
 from django.urls import reverse_lazy
+from django.db.models import Q
 from .models import User, Product, ProductImage
 from . import forms
 
@@ -37,6 +38,45 @@ class IndexListView(ListView):
 
     def get_queryset(self):
         return Product.objects.prefetch_related('images').all()
+
+class SearchView(TemplateView):
+    template_name = 'pages/search_results.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('q')
+        
+        if query:
+            products = Product.objects.filter(
+                Q(name__icontains=query) | Q(description__icontains=query)
+            )
+            users = User.objects.filter(
+                Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(endereco__icontains=query)
+            )
+        else:
+            products = Product.objects.none()
+            users = User.objects.none()
+
+        context['query'] = query
+        context['products'] = products
+        for product in context['products']:
+            if product.condition == 'Novo':
+                product.badge = 'badge-success'
+            elif product.condition == 'Usado':
+                product.badge = 'badge-warning'
+            elif product.condition == 'Semi-novo':
+                product.badge = 'badge-info'
+            elif product.condition == 'Recondicionado':
+                product.badge = 'badge-primary'
+            elif product.condition == 'Danificado':
+                product.badge = 'badge-danger'
+            else:
+                product.badge = 'badge-secondary'
+
+            address = product.usuario.endereco.split(", ")
+            product.city = address[1] if len(address) > 1 else product.usuario.endereco
+        context['users'] = users
+        return context
 
 class ProductDetailView(DetailView):
     model = Product

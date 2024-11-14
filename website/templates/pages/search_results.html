@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %} Resultado {% endblock title %}
+
+{% block staticfiles %}
+    {% load static %}
+    <link href="{% static 'css/search_results.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <h1 class="mb-4">Resultados para "{{ query }}"</h1>
+
+    <!-- Tabs for Users and Products -->
+    <ul class="nav nav-tabs custom-tabs mb-4" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="true">
+                <i class="bi bi-people-fill me-2"></i>Usuários
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="products-tab" data-bs-toggle="tab" data-bs-target="#products" type="button" role="tab" aria-controls="products" aria-selected="false">
+                <i class="bi bi-box-seam me-2"></i>Produtos
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab content -->
+    <div class="tab-content" id="myTabContent">
+        <!-- Users tab -->
+        <div class="tab-pane fade show active" id="users" role="tabpanel" aria-labelledby="users-tab">
+            <div class="row">
+                {% if users %}
+                    {% for user in users %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-0">
+                                    <div class="position-relative">
+                                        <img src="{{ user.foto_perfil.url }}" 
+                                             alt="{{ user.username }}" 
+                                             class="rounded-circle mr-3" 
+                                             style="width: 80px; height: 80px; object-fit: cover;">
+                                    </div>
+                                    <div class="ms-3">
+                                        <h5 class="card-title mb-0">{{ user.first_name }} {{ user.last_name }}</h5>
+                                        <p class="card-text text-muted mb-0">
+                                            <i class="bi bi-geo-alt-fill me-1"></i>{{ user.endereco }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-person-lines-fill me-1"></i>Ver Perfil
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted ml-3">Nenhum usuário encontrado.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Products tab -->
+        <div class="tab-pane fade" id="products" role="tabpanel" aria-labelledby="products-tab">
+            <div class="row">
+                {% if products %}
+                    {% for product in products %}
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="card">
+                            <div class="estado-produto badge {{ product.badge }}">{{ product.condition }}</div>
+                              {% with product.images.first as first_image %}
+                                  {% if first_image %}
+                                      <img src="{{ first_image.image.url }}" class="d-block w-100 card-img-top" alt="{{ product.name }}" >
+                                  {% else %}
+                                      <p>Sem imagem disponível</p>
+                                  {% endif %}
+                              {% endwith %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">{{ product.description|truncatewords:10 }}</p>
+                                <a href="{% url "product_detail" product.pk %}" class="btn btn-success w-100">Receber</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                              <p class="small mb-1"><strong>Doado por:</strong> {{ product.usuario.first_name }} {{ product.usuario.last_name }}</p>
+                              <p class="small mb-0"><strong>Localização:</strong> {{ product.city }}</p>
+                          </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted ml-3">Nenhum produto encontrado.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
