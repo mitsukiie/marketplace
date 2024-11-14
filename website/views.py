@@ -11,7 +11,26 @@ from django.db.models import Q
 from .models import User, Product, ProductImage
 from . import forms
 
-class IndexListView(ListView):
+class BadgeMixin:
+    def add_badges(self, products):
+        for product in products:
+            product.badge = self.get_badge(product.condition)
+
+    def get_badge(self, condition):
+        if condition == 'Novo':
+            return 'badge-success'
+        elif condition == 'Usado':
+            return 'badge-warning'
+        elif condition == 'Semi-novo':
+            return 'badge-info'
+        elif condition == 'Recondicionado':
+            return 'badge-primary'
+        elif condition == 'Danificado':
+            return 'badge-danger'
+        else:
+            return 'badge-secondary'
+
+class IndexListView(BadgeMixin, ListView):
     model = Product
     template_name = 'pages/index.html'
     context_object_name = 'products' 
@@ -19,27 +38,15 @@ class IndexListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         for product in context['products']:
-            if product.condition == 'Novo':
-                product.badge = 'badge-success'
-            elif product.condition == 'Usado':
-                product.badge = 'badge-warning'
-            elif product.condition == 'Semi-novo':
-                product.badge = 'badge-info'
-            elif product.condition == 'Recondicionado':
-                product.badge = 'badge-primary'
-            elif product.condition == 'Danificado':
-                product.badge = 'badge-danger'
-            else:
-                product.badge = 'badge-secondary'
-
             address = product.usuario.endereco.split(", ")
             product.city = address[1] if len(address) > 1 else product.usuario.endereco
+        self.add_badges([product])
         return context
 
     def get_queryset(self):
         return Product.objects.prefetch_related('images').all()
 
-class SearchView(TemplateView):
+class SearchView(BadgeMixin, TemplateView):
     template_name = 'pages/search_results.html'
 
     def get_context_data(self, **kwargs):
@@ -60,31 +67,24 @@ class SearchView(TemplateView):
         context['query'] = query
         context['products'] = products
         for product in context['products']:
-            if product.condition == 'Novo':
-                product.badge = 'badge-success'
-            elif product.condition == 'Usado':
-                product.badge = 'badge-warning'
-            elif product.condition == 'Semi-novo':
-                product.badge = 'badge-info'
-            elif product.condition == 'Recondicionado':
-                product.badge = 'badge-primary'
-            elif product.condition == 'Danificado':
-                product.badge = 'badge-danger'
-            else:
-                product.badge = 'badge-secondary'
-
             address = product.usuario.endereco.split(", ")
             product.city = address[1] if len(address) > 1 else product.usuario.endereco
         context['users'] = users
+        self.add_badges(products)
         return context
 
-class ProductDetailView(DetailView):
+class ProductDetailView(BadgeMixin, DetailView):
     model = Product
     template_name = 'pages/product/detail.html'
-    context_object_name = 'product'
 
     def get_queryset(self):
         return Product.objects.prefetch_related('images')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = context['product']
+        self.add_badges([product])
+        return context
 
 class RegisterCreateView(CreateView):
     template_name = 'pages/authentication/register.html'

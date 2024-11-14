@@ -1,3 +1,11 @@
+.btn {
+  border: none;
+}
+
+.breadcrumb {
+  background-color: #ffffff;
+}
+
 .product-img {
   height: 380px;
   transition: transform 0.3s ease;
@@ -35,4 +43,15 @@
 
 .card .description {
   font-size: 20px;
+}
+
+.dark-mode .form-control {
+  background-color: #26292c; 
+  color: #929292; 
+  border: 1px solid #343a40;
+}
+
+.dark-mode .card, .dark-mode .breadcrumb {
+  background-color: #2b2e33;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

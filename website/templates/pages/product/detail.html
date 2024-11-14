@@ -10,7 +10,7 @@
 {% block content %}
 <div class="container mt-5 pt-5">
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-light p-2 rounded">
+        <ol class="breadcrumb p-2 rounded">
             <li class="breadcrumb-item"><a href="/">Inicio</a></li>
             <li class="breadcrumb-item"><a href="/">Doações</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
@@ -63,7 +63,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <h1 class="card-title mb-0">{{ product.name }}</h1>
-                        <span class="badge badge-info ml-3">{{ product.condition }}</span>
+                        <span class="badge {{ product.badge }} ml-3">{{ product.condition }}</span>
                     </div>
                     <p class="text-muted"><i class="far fa-clock mr-2"></i>Publicado em {{ product.publication_date|date:"d/m/Y" }}</p>
                     <p class="description">{{ product.description }}</p>
