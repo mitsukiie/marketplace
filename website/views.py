@@ -35,16 +35,17 @@ class IndexListView(BadgeMixin, ListView):
     template_name = 'pages/index.html'
     context_object_name = 'products' 
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        for product in context['products']:
-            address = product.usuario.endereco.split(", ")
-            product.city = address[1] if len(address) > 1 else product.usuario.endereco
-        self.add_badges([product])
-        return context
-
     def get_queryset(self):
         return Product.objects.prefetch_related('images').all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = context['products']
+        for product in products:
+            address = product.usuario.endereco.split(", ")
+            product.city = address[1] if len(address) > 1 else product.usuario.endereco
+        self.add_badges(products)
+        return context
 
 class SearchView(BadgeMixin, TemplateView):
     template_name = 'pages/search_results.html'
