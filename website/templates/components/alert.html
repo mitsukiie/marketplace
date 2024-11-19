@@ -4,14 +4,33 @@
 {% endblock %}
 
 {% if messages %}
-<div class="fixed-bottom text-center mb-3 container d-flex justify-content-center">
+<div class="alerts-container">
     {% for message in messages %}
         <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
             {{ message }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
         </div>
     {% endfor %}
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const alerts = document.querySelectorAll('.alert');
+
+    alerts.forEach(alert => {
+        const progressBar = alert.querySelector('.progress-bar');
+        progressBar.addEventListener('animationend', function() {
+            alert.style.animation = 'disappear 0.5s ease forwards';
+            setTimeout(function() {
+                alert.remove();
+            }, 500);
+        });
+    });
+});
+
+</script>
 {% endif %}

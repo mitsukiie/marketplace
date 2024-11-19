@@ -97,9 +97,14 @@ class RegisterCreateView(CreateView):
         login(self.request, user)
         return redirect(self.success_url)
 
-class LoginView(LoginView):
+class LoginView(LoginView, SuccessMessageMixin):
     authentication_form = forms.AuthenticateForm
     template_name = 'pages/authentication/login.html'
+    success_message = 'Logado com sucesso!'
+
+    def form_valid(self, form):
+        messages.add_message(self.request, messages.SUCCESS, self.success_message)
+        return super().form_valid(form)
 
 class LogoutView(View):
     def get(self, request, *args, **kwargs):
@@ -108,25 +113,12 @@ class LogoutView(View):
 
 class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'pages/profile/profile.html'
-    success_url = reverse_lazy('profile')  # Redireciona para a página do perfil após o sucesso
+    success_url = reverse_lazy('profile')
     success_message = 'Perfil atualizado com sucesso!'
+    form_class = forms.UserProfileForm
 
-    def get(self, request, *args, **kwargs):
-        form = forms.UserProfileForm(instance=request.user)
-        return render(request, self.template_name, {
-            'form': form
-        })
-
-    def post(self, request, *args, **kwargs):
-        form = forms.UserProfileForm(request.POST, request.FILES, instance=request.user)
-
-        if form.is_valid():
-            form.save()
-            return redirect(self.success_url)  
-
-        return render(request, self.template_name, {
-            'form': form
-        })
+    def get_object(self):
+        return self.request.user
 
 class ProductListView(LoginRequiredMixin, ListView):
     model = Product

@@ -18,6 +18,10 @@ body {
   background-color: rgba(225, 225, 225, 0.2);
 }
 
+.badge-warning {
+  color: #ffffff;
+}
+
 .form-control:focus {
   box-shadow: none;
   border-color: #1867ce;
